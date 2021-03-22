@@ -5,12 +5,13 @@ from itertools import count
 
 
 class Zakharov(Individuo):
-
+    #  Inicializa individuo zakharov com vetor de dimensao d
     def __init__(self, d):
         self.d = d
         self.zakharov_entrada = [0]*d
         self.melhor_entrada = None
 
+    # define genes aleatórios entre os valores de -5 a 10
     def definir_entradas_aleatorias(self):
         self.zakharov_entrada = [uniform(-5, 10) for i in range(self.d)]
 
@@ -24,9 +25,12 @@ class Zakharov(Individuo):
         # Representação formada do vector
         return str(self.zakharov_entrada)
 
-        # recombinar
     def __add__(self, element):
+        """recombinação utilizando Crossover-BLX-alpha
+        F1i=P1i+ alpha*|P1i-P2i|
+        P2i=P2i+ alpha*|P1i-P2i|"""
         alpha = 0.33
+        # cria individuo filho
         filho = Zakharov(len(self))
         filho.zakharov_entrada = [
             (1-alpha)*self[i]+(alpha*element[i]) for i in range(self.d)]
@@ -47,6 +51,7 @@ class Zakharov(Individuo):
             yield saida_Func
 
     def avaliacao(self):
+
         melhor_av = None
         for valor in self.funcao():
 
@@ -59,19 +64,26 @@ class Zakharov(Individuo):
         return melhor_av
 
     def mutar(self):
+        """
+        Percorre cada gene do indivíduo e mutar o gene com probabilidade  0.1(taxa de mutação)
+        O gene que sofrer mutação é a cópia do pai acrescido de um ruído. Este ruído geralmente
+        é uma variável de distribuição normal
+        """
         cont = 0
         for i in self.zakharov_entrada:
+            # gausiana onde 0 é a média e 1 é o desvio padrão
             gausiana = gauss(0, 1)
 
+            # Se o valor da gausiana gerada estiver entre 0 e 0.1 o valor da gausiana é acrescido ao gene
             if 0 < gausiana <= 0.1:
                 cont = 1
                 i = i + gausiana
-
+                # caso o valor do gene tenha extrapolado o limite superior da função de 10 um novo valor para o gene é gerado
                 if i > 10:
                     i = randrange(-5, 10)
 
                 return self
-
+        # caso nenhuma gausiana entre 0 e 0.1 for gerada um gene deve ser mutado aleatoriamente.
         if cont == 0:
             pos_aleatoria = randrange(0, self.d-1)
 
