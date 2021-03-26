@@ -63,7 +63,7 @@ class FGA:
     @staticmethod
     def roleta(pop, sum_ava):
         """ existem duas formas de fazermos a roleta: uma pra maximização e uma pra minimização. 
-            O problema da rainha é um problema de minimização.
+            Zakharov é um problema de minimização.
             recebe uma populacao ordenada, gera um número aleatório entre 0 e o somátorio da lista de avaliações passado com argumento.
             variável contador = soma da avaliacao dos individuos da população
         """
