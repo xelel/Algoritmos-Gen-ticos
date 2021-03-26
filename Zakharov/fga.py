@@ -11,7 +11,7 @@ para algoritmos evolucionários
 class FGA:
     """
     Inicializa a população, com o número de individuos por população, 
-    e o número de genes(rainhas) por individuo
+    e o número de genes por individuo
     """
 
     def __init__(self, npop, nZkrv_tabuleiro):
